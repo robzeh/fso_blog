@@ -9,8 +9,12 @@ blogRouter.get("/api/blogs", async (request, response) => {
 blogRouter.post("/api/blogs", async (request, response) => {
   const blog = new Blog(request.body);
 
+  if (!blog.title && !blog.url) {
+    response.status(400).end();
+  }
+
   const savedBlog = await blog.save();
-  response.json(savedBlog.toJSON());
+  response.status(201).json(savedBlog.toJSON());
 });
 
 module.exports = blogRouter;
