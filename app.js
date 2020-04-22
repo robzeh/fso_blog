@@ -1,8 +1,10 @@
-const http = require("http");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+
+const config = require("./utils/config");
+const logger = require("./utils/logger");
 
 const blogSchema = mongoose.Schema({
   title: String,
@@ -13,10 +15,15 @@ const blogSchema = mongoose.Schema({
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-// mongodb+srv://fullstack:fullstack@cluster0-rxwei.mongodb.net/test?retryWrites=true&w=majority
-const mongoUrl =
-  "mongodb+srv://fullstack:fullstack@cluster0-rxwei.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoUrl = config.MONGODB_URL;
+mongoose
+  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    logger.info("Connected to MongoDB");
+  })
+  .catch((error) => {
+    logger.error(`Error: ${error.message}`);
+  });
 
 app.use(cors());
 app.use(express.json());
