@@ -99,6 +99,30 @@ describe("API Tests", () => {
     );
   });
 
+  describe("DELETE Tests", () => {
+    test(
+      "Delete a blog",
+      async () => {
+        // const blogs = await helper.blogs;
+        await api.delete(`/api/blogs/${helper.blogs[0].id}`).expect(204);
+      },
+      JEST_TIMEOUT
+    );
+  });
+
+  describe("PUT Tests", () => {
+    test("Update blog likes", async () => {
+      const blogs = await helper.blogsInDB();
+      const newLikes = 1337;
+      const updatedBlog = await api
+        .put(`/api/blogs/${blogs[0].id}`)
+        .send({ likes: newLikes })
+        .expect(200);
+
+      expect(updatedBlog.body.likes).toBe(newLikes);
+    });
+  });
+
   afterAll(() => {
     mongoose.connection.close();
   });
