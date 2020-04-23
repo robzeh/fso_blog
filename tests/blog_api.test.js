@@ -180,6 +180,25 @@ describe("Users Tests", () => {
       expect(usersAtEnd).toHaveLength(usersAtStart.length);
     });
   });
+
+  describe("Login Tests", () => {
+    test("Username and password too short", async () => {
+      const usersAtStart = await helper.usersInDb();
+
+      const invalidUser = {
+        username: "r",
+        name: "robie",
+        password: "r",
+      };
+
+      const result = await api
+        .post("/api/users")
+        .send(invalidUser)
+        .expect(400)
+        .expect("Content-Type", /application\/json/);
+      expect(result.body.error).toContain("username or password too short");
+    });
+  });
 });
 
 afterAll(() => {
