@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const getTokenFrom = (request) => {
   const authorization = request.get("authorization");
-  if (authorization && authorization.toLowerCase().startWith("bearer ")) {
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     return authorization.substring(7);
   }
   return null;
@@ -75,6 +75,8 @@ blogRouter.delete("/:id", async (request, response) => {
       .json({ error: "Token missing or invalid" })
       .end();
   }
+
+  const blog = await Blog.findById(request.params.id);
 
   await Blog.findByIdAndRemove(request.params.id);
   response.status(204).end();
