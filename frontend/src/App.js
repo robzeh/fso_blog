@@ -4,6 +4,7 @@ import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
+import TogglableBlog from "./components/TogglableBlog";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -91,6 +92,16 @@ const App = () => {
     </Togglable>
   );
 
+  const showBlogsRef = React.createRef();
+
+  const showBlogs = () =>
+    blogs.map((blog) => (
+      <TogglableBlog key={blog.id} title={blog.title} ref={showBlogsRef}>
+        <Blog key={blog.id} blog={blog} />
+      </TogglableBlog>
+    ));
+  // blogs.map((blog) => <Blog key={blog.id} blog={blog} />);
+
   const addBlog = (event) => {
     event.preventDefault();
     const blogObject = {
@@ -124,9 +135,7 @@ const App = () => {
           </div>
           <h3>Add a new blog</h3>
           {blogForm()}
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+          {showBlogs()}
         </div>
       )}
     </div>
