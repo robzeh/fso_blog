@@ -3,6 +3,7 @@ import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
+import Togglable from "./components/Togglable";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -60,26 +61,34 @@ const App = () => {
     console.log(window.localStorage);
   };
 
+  const loginFormRef = React.createRef();
+
   const loginForm = () => (
-    <LoginForm
-      username={username}
-      password={password}
-      handleUsernameChange={({ target }) => setUsername(target.value)}
-      handlePasswordChange={({ target }) => setPassword(target.value)}
-      handleSubmit={handleLogin}
-    />
+    <Togglable buttonLabel="Login" ref={loginFormRef}>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    </Togglable>
   );
 
+  const blogFormRef = React.createRef();
+
   const blogForm = () => (
-    <BlogForm
-      title={title}
-      author={author}
-      url={url}
-      handleTitleChange={({ target }) => setTitle(target.value)}
-      handleAuthorChange={({ target }) => setAuthor(target.value)}
-      handleUrlChange={({ target }) => setUrl(target.value)}
-      handleSubmit={addBlog}
-    />
+    <Togglable buttonLabel="Add New Blog" ref={blogFormRef}>
+      <BlogForm
+        title={title}
+        author={author}
+        url={url}
+        handleTitleChange={({ target }) => setTitle(target.value)}
+        handleAuthorChange={({ target }) => setAuthor(target.value)}
+        handleUrlChange={({ target }) => setUrl(target.value)}
+        handleSubmit={addBlog}
+      />
+    </Togglable>
   );
 
   const addBlog = (event) => {
