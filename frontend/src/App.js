@@ -97,7 +97,11 @@ const App = () => {
   const showBlogs = () =>
     blogs.map((blog) => (
       <TogglableBlog key={blog.id} title={blog.title} ref={showBlogsRef}>
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          increaseLikes={() => increaseLikes(blog)}
+        />
       </TogglableBlog>
     ));
   // blogs.map((blog) => <Blog key={blog.id} blog={blog} />);
@@ -119,6 +123,14 @@ const App = () => {
     setTimeout(() => {
       setMessage("");
     }, 5000);
+  };
+
+  const increaseLikes = async (blog) => {
+    const changedBlog = { ...blog, likes: blog.likes + 1 };
+    await blogService.update(blog.id, changedBlog);
+    setBlogs(
+      blogs.map((blog) => (blog.id !== changedBlog.id ? blog : changedBlog))
+    );
   };
 
   return (
