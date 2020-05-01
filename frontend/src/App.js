@@ -20,9 +20,16 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  // get all initial blogs
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    getBlogs();
   }, []);
+
+  const getBlogs = async () => {
+    const blogs = await blogService.getAll();
+    const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
+    setBlogs(sortedBlogs);
+  };
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("LoggedBlogUser");
