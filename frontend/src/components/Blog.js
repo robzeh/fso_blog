@@ -1,6 +1,6 @@
 import React from "react";
 
-const Blog = ({ blog, increaseLikes }) => {
+const Blog = ({ blog, increaseLikes, removeBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -17,6 +17,7 @@ const Blog = ({ blog, increaseLikes }) => {
         {blog.likes} likes
         <button onClick={increaseLikes}>Like</button>
       </div>
+      <button onClick={removeBlog}>Delete</button>
     </div>
   );
 };

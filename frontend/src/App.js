@@ -108,6 +108,7 @@ const App = () => {
           key={blog.id}
           blog={blog}
           increaseLikes={() => increaseLikes(blog)}
+          removeBlog={() => removeBlog(blog)}
         />
       </TogglableBlog>
     ));
@@ -130,6 +131,14 @@ const App = () => {
     setTimeout(() => {
       setMessage("");
     }, 5000);
+  };
+
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Delete "${blog.title}" by ${blog.author}?`)) {
+      const newBlogs = blogs.filter((b) => b.id !== blog.id);
+      await blogService.remove(blog);
+      setBlogs(newBlogs);
+    }
   };
 
   const increaseLikes = async (blog) => {
