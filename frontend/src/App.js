@@ -103,7 +103,12 @@ const App = () => {
 
   const showBlogs = () =>
     blogs.map((blog) => (
-      <TogglableBlog key={blog.id} title={blog.title} ref={showBlogsRef}>
+      <TogglableBlog
+        key={blog.id}
+        title={blog.title}
+        author={blog.author}
+        ref={showBlogsRef}
+      >
         <Blog
           key={blog.id}
           blog={blog}
